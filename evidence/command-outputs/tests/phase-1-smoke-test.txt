@@ -1,0 +1,11 @@
+[1/5] Checking /health
+{"status":"ok"}
+[2/5] Checking /ready
+{"status":"ok","db":"reachable"}
+[3/5] Creating link
+{"code":"39O36S","original_url":"https://example.com/"}
+[4/5] Retrieving link: 39O36S
+{"code":"39O36S","original_url":"https://example.com/"}
+[5/5] Checking stats
+{"code":"39O36S","accesses":1}
+Smoke test passed

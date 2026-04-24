@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Env / secrets
+.env
+*.pem
+*.key
+
+# Docker / local runtime
+*.log
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
+
+# Local database / generated artifacts
+postgres_data/

@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: url-shortener-postgres
+    environment:
+      POSTGRES_DB: urlshortener
+      POSTGRES_USER: urlshortener
+      POSTGRES_PASSWORD: urlshortener
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U urlshortener -d urlshortener"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: ./app
+    container_name: url-shortener-api
+    environment:
+      DATABASE_URL: postgresql+psycopg://urlshortener:urlshortener@postgres:5432/urlshortener
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
