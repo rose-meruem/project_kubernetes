@@ -1,0 +1,15 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: url-shortener-postgres-pvc
+  labels:
+    app.kubernetes.io/name: url-shortener-postgres
+    app.kubernetes.io/part-of: sovereign-kubernetes-idp-lab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.postgres.storageSize }}
+{{- end }}

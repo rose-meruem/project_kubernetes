@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: url-shortener
+  tag: local
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  className: traefik
+  host: localhost
+
+postgres:
+  storageSize: 1Gi

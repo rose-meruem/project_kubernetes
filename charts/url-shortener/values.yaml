@@ -1,0 +1,36 @@
+replicaCount: 1
+
+image:
+  repository: url-shortener
+  tag: local
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: true
+  className: traefik
+  host: localhost
+
+app:
+  port: 8000
+  databaseUrl: postgresql+psycopg://urlshortener:urlshortener@url-shortener-postgres:5432/urlshortener
+
+postgres:
+  enabled: true
+  image: postgres:16-alpine
+  database: urlshortener
+  user: urlshortener
+  password: urlshortener
+  port: 5432
+  storageSize: 1Gi
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
