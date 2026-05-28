@@ -23,6 +23,7 @@ help:
 
 dev-up:
 	kind create cluster --name $(KIND_CLUSTER)
+	kubectl wait --for=condition=Ready node/$(KIND_CLUSTER)-control-plane --timeout=120s
 	kubectl get nodes
 
 dev-down:
