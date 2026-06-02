@@ -4,8 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: url-shortener-postgres-pvc
   labels:
-    app.kubernetes.io/name: url-shortener-postgres
-    app.kubernetes.io/part-of: sovereign-kubernetes-idp-lab
+    {{- include "url-shortener.postgresLabels" . | nindent 4 }}
 spec:
   accessModes:
     - ReadWriteOnce

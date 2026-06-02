@@ -11,8 +11,12 @@ service:
 
 ingress:
   enabled: true
-  className: traefik
+  className: ""
   host: localhost
+  annotations: {}
+  tls:
+    enabled: false
+    secretName: ""
 
 app:
   port: 8000
@@ -24,8 +28,26 @@ postgres:
   database: urlshortener
   user: urlshortener
   password: urlshortener
+  existingSecret: ""
   port: 5432
   storageSize: 1Gi
+
+probes:
+  readiness:
+    path: /ready
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  liveness:
+    path: /health
+    initialDelaySeconds: 10
+    periodSeconds: 20
+  startup:
+    path: /health
+    failureThreshold: 30
+    periodSeconds: 2
+
+networkPolicy:
+  enabled: false
 
 resources:
   requests:

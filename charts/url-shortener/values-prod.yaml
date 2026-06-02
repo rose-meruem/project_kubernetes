@@ -1,0 +1,29 @@
+replicaCount: 2
+
+image:
+  repository: url-shortener
+  tag: sha-placeholder
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  className: traefik
+  host: short.younessb.dev
+  tls:
+    enabled: true
+    secretName: short-younessb-dev-tls
+
+postgres:
+  storageSize: 10Gi
+  existingSecret: url-shortener-postgres-secret
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+networkPolicy:
+  enabled: true
