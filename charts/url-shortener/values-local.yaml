@@ -11,4 +11,10 @@ ingress:
   host: localhost
 
 postgres:
+  database: urlshortener
+  user: urlshortener
+  password: urlshortener
   storageSize: 1Gi
+
+app:
+  databaseUrl: postgresql+psycopg://urlshortener:urlshortener@url-shortener-postgres:5432/urlshortener

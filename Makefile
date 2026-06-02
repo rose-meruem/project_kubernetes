@@ -59,3 +59,11 @@ status:
 
 clean:
 	kubectl delete namespace $(NAMESPACE) --ignore-not-found=true
+
+helm-lint:
+	helm lint $(CHART)
+
+helm-template:
+	helm template $(APP_NAME) $(CHART) -f $(VALUES_LOCAL) >/tmp/url-shortener-rendered.yaml
+
+validate-chart: helm-lint helm-template
