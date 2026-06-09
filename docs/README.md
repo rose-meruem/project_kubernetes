@@ -57,7 +57,8 @@ docs/
 │   ├── phase-1_app-foundation.md
 │   ├── phase-2_local-kubernetes.md
 │   ├── phase-3_helm-local-deployment.md
-│   └── phase-4_argocd-gitops.md
+│   ├── phase-4_argocd-gitops.md
+│   └── phase-5_aws-foundation.md
 ├── incidents/
 │   └── inc001_nftables-docker.md
 └── evidence/
@@ -165,6 +166,30 @@ Manual scale to 0 replicas
 
 ---
 
+### Phase 5 — AWS foundation
+
+File:
+
+```text
+docs/phases/phase-5_aws-foundation.md
+```
+
+Purpose:
+
+```text
+Move from local kind to AWS: GitHub Actions CI/CD, ECR image registry,
+EKS cluster, Argo CD on EKS, AWS ALB ingress, and TLS.
+```
+
+Main outcome (in progress):
+
+```text
+Automated pipeline from git push to production on EKS,
+with Argo CD GitOps reconciliation and AWS load-balanced ingress.
+```
+
+---
+
 ## Incident documentation
 
 Incident files are stored in:
@@ -233,9 +258,9 @@ make argocd-check
 
 ## Current validated project state
 
-The project has currently reached the end of Phase 4.
+The project has reached Phase 5 (AWS foundation, in progress).
 
-Validated:
+Validated (local):
 
 ```text
 FastAPI app:              Running
@@ -245,6 +270,17 @@ Local deployment:         Working
 Argo CD sync:             Synced
 Smoke test:               Passed
 Self-healing test:        Passed
+```
+
+Phase 5 status:
+
+```text
+GitHub Actions CI:        Complete (test + build-push to ECR)
+ECR registry:             Pending
+EKS cluster:              Pending
+Argo CD on EKS:           Pending
+AWS ALB ingress:          Pending
+TLS:                      Pending
 ```
 
 Known local limitation:
