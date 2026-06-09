@@ -1,5 +1,6 @@
 import secrets
 import string
+from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
@@ -9,12 +10,13 @@ from models import ClickEvent, Link
 from schemas import LinkCreate, LinkResponse, LinkStatsResponse
 
 
-app = FastAPI(title="URL Shortener API")
-
-
-@app.on_event("startup")
-def startup() -> None:
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
+    yield
+
+
+app = FastAPI(title="URL Shortener API", lifespan=lifespan)
 
 
 def generate_code(length: int = 6) -> str:
