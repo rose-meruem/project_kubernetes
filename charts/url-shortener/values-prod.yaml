@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: 805393736963.dkr.ecr.eu-west-1.amazonaws.com/url-shortener
-  tag: sha-e985369
+  tag: sha-e14bd1d
   pullPolicy: IfNotPresent
 
 ingress:
