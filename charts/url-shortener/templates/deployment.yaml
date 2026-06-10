@@ -20,6 +20,16 @@ spec:
 
       serviceAccountName: {{ include "url-shortener.fullname" . }}
 
+      {{- if .Values.postgres.enabled }}
+      initContainers:
+        - name: wait-for-postgres
+          image: {{ .Values.postgres.image }}
+          command:
+            - sh
+            - -c
+            - until pg_isready -h url-shortener-postgres -p {{ .Values.postgres.port }}; do echo "waiting for postgres"; sleep 2; done
+      {{- end }}
+
       containers:
         - name: url-shortener
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

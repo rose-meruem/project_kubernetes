@@ -31,6 +31,7 @@ postgres:
   existingSecret: ""
   port: 5432
   storageSize: 1Gi
+  storageClass: ""
 
 probes:
   readiness:

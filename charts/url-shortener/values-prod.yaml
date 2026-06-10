@@ -21,6 +21,7 @@ ingress:
 
 postgres:
   storageSize: 10Gi
+  storageClass: gp2
   existingSecret: url-shortener-postgres-secret
 
 resources:
