@@ -7,11 +7,17 @@ image:
 
 ingress:
   enabled: true
-  className: traefik
+  className: alb
   host: short.younessb.dev
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443},{"HTTP":80}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:eu-west-1:805393736963:certificate/953d7f2d-73e5-47ee-83fb-ced4e1170e69"
   tls:
-    enabled: true
-    secretName: short-younessb-dev-tls
+    enabled: false
+    secretName: ""
 
 postgres:
   storageSize: 10Gi
