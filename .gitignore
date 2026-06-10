@@ -20,3 +20,4 @@ venv/
 
 # Local database / generated artifacts
 postgres_data/
+iam_policy.json

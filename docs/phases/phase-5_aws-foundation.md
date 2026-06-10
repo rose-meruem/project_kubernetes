@@ -7,8 +7,8 @@ Phase 5 is in progress.
 Current state:
 
 ```text
-GitHub Actions CI:     Complete
-ECR registry:          Pending
+GitHub Actions CI:     Complete (validated green on CI #2)
+ECR registry:          Complete
 EKS cluster:           Pending
 Argo CD on EKS:        Pending
 AWS ALB ingress:       Pending
@@ -103,6 +103,37 @@ Test command:
 ```bash
 python -m pytest -q
 ```
+
+#### Issue found during CI: startup event not firing
+
+The original `app.py` used the deprecated `@app.on_event("startup")` pattern. In Starlette 0.20+, this event only fires when `TestClient` is used as a context manager. The tests use a module-level `client = TestClient(app)`, so the startup never ran and the `links` table did not exist.
+
+Fixed by:
+
+1. Migrating `main.py` to the modern `lifespan` context manager:
+
+```python
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    yield
+
+app = FastAPI(title="URL Shortener API", lifespan=lifespan)
+```
+
+2. Adding `app/conftest.py` with a session-scoped `autouse` fixture as an explicit safety net:
+
+```python
+@pytest.fixture(scope="session", autouse=True)
+def create_tables():
+    Base.metadata.create_all(bind=engine)
+    yield
+    Base.metadata.drop_all(bind=engine)
+```
+
+CI passed on run #2 after this fix.
 
 #### build-push
 
