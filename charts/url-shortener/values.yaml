@@ -50,6 +50,10 @@ probes:
 networkPolicy:
   enabled: false
 
+serviceMonitor:
+  enabled: false
+  interval: 30s
+
 resources:
   requests:
     cpu: 100m

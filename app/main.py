@@ -3,6 +3,7 @@ import string
 from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, HTTPException
+from prometheus_fastapi_instrumentator import Instrumentator
 from sqlalchemy.orm import Session
 
 from database import Base, check_database_connection, engine, get_db
@@ -17,6 +18,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="URL Shortener API", lifespan=lifespan)
+Instrumentator().instrument(app).expose(app)
 
 
 def generate_code(length: int = 6) -> str:

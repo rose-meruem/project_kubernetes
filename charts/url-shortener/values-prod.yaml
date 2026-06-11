@@ -34,3 +34,6 @@ resources:
 
 networkPolicy:
   enabled: true
+
+serviceMonitor:
+  enabled: true
