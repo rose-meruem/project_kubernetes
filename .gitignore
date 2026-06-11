@@ -21,3 +21,9 @@ venv/
 # Local database / generated artifacts
 postgres_data/
 iam_policy.json
+
+# Terraform
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/*.tfvars

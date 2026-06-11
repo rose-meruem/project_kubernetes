@@ -7,13 +7,15 @@ Phase 5 is in progress.
 Current state:
 
 ```text
-GitHub Actions CI:     Complete (validated green on CI #2)
+GitHub Actions CI:     Complete
 ECR registry:          Complete
-EKS cluster:           Pending
-Argo CD on EKS:        Pending
-AWS ALB ingress:       Pending
-TLS:                   Pending
+EKS cluster:           Complete
+Argo CD on EKS:        Complete
+AWS ALB ingress:       Complete
+TLS (ACM):             Complete
 ```
+
+Phase 5 is complete. The application is live at https://short.younessb.dev.
 
 ---
 

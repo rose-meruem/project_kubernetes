@@ -58,7 +58,8 @@ docs/
 │   ├── phase-2_local-kubernetes.md
 │   ├── phase-3_helm-local-deployment.md
 │   ├── phase-4_argocd-gitops.md
-│   └── phase-5_aws-foundation.md
+│   ├── phase-5_aws-foundation.md
+│   └── phase-6_terraform-iac.md
 ├── incidents/
 │   └── inc001_nftables-docker.md
 └── evidence/
@@ -190,6 +191,32 @@ with Argo CD GitOps reconciliation and AWS load-balanced ingress.
 
 ---
 
+### Phase 6 — Terraform IaC
+
+File:
+
+```text
+docs/phases/phase-6_terraform-iac.md
+```
+
+Purpose:
+
+```text
+Replace all manual eksctl and aws CLI commands from Phase 5 with
+Terraform modules that reproduce the full AWS infrastructure from code.
+```
+
+Main outcome (planned):
+
+```text
+One terraform apply provisions: VPC, EKS cluster, managed nodegroup,
+ECR repository, EBS CSI driver, IAM roles (GitHub OIDC, ALB controller,
+EBS CSI), and all required policies. The entire AWS platform is
+version-controlled, auditable, and reproducible.
+```
+
+---
+
 ## Incident documentation
 
 Incident files are stored in:
@@ -275,12 +302,13 @@ Self-healing test:        Passed
 Phase 5 status:
 
 ```text
-GitHub Actions CI:        Complete (test + build-push to ECR)
-ECR registry:             Pending
-EKS cluster:              Pending
-Argo CD on EKS:           Pending
-AWS ALB ingress:          Pending
-TLS:                      Pending
+GitHub Actions CI:        Complete
+ECR registry:             Complete
+EKS cluster:              Complete (sovereign-idp, eu-west-1, 2x t3.medium)
+Argo CD on EKS:           Complete
+AWS ALB ingress:          Complete
+TLS (ACM):                Complete
+Live URL:                 https://short.younessb.dev
 ```
 
 Known local limitation:
