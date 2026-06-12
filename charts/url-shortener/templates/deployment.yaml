@@ -28,6 +28,13 @@ spec:
             - sh
             - -c
             - until pg_isready -h url-shortener-postgres -p {{ .Values.postgres.port }}; do echo "waiting for postgres"; sleep 2; done
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 70
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       {{- end }}
 
       containers:
@@ -39,7 +46,7 @@ spec:
             runAsNonRoot: true
             runAsUser: 1000
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
@@ -75,5 +82,13 @@ spec:
             initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
             periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
 
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+
+      volumes:
+        - name: tmp
+          emptyDir: {}

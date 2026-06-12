@@ -70,7 +70,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push image
+      - name: Build image
         id: build
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -84,11 +84,22 @@ jobs:
             -t "${FULL_IMAGE}:latest" \
             ./app
 
-          docker push "${FULL_IMAGE}:${IMAGE_TAG}"
-          docker push "${FULL_IMAGE}:latest"
-
           echo "image=${FULL_IMAGE}" >> "$GITHUB_OUTPUT"
           echo "tag=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Scan image for vulnerabilities
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+          trivy image \
+            --exit-code 1 \
+            --severity CRITICAL \
+            --ignore-unfixed \
+            "${{ steps.build.outputs.image }}:${{ steps.build.outputs.tag }}"
+
+      - name: Push image
+        run: |
+          docker push "${{ steps.build.outputs.image }}:${{ steps.build.outputs.tag }}"
+          docker push "${{ steps.build.outputs.image }}:latest"
 
       - name: Update prod image tag
         env:
