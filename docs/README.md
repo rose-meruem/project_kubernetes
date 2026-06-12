@@ -1,4 +1,4 @@
-# Kubernetes IDP Lab — Documentation
+# Kubernetes IDP Lab Documentation
 
 This directory contains the technical documentation for the Kubernetes IDP Lab project.
 
